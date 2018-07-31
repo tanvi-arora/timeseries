@@ -1,0 +1,133 @@
+---
+title: "TimeSeries"
+author: "Tanvi Arora"
+date: "July 28, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# load libraries
+
+library(knitr)
+library(ggplot2)
+#multivariate Time Series
+library(MTS)
+library(fpp2)
+#fppt pacakge for Temperature data
+#install.packages("fpp2", dependencies = c("Depends","Suggests"))
+#install.packages("forecast", dependencies = c("Depends","Suggests"))
+#install.packages("uroot", dependencies = c("Depends","Suggests"))
+library(fpp2)
+
+#install.packages("xts", repos = "http://cloud.r-project.org")
+library(xts)
+
+#install.packages("dygraphs")
+library(dygraphs)
+
+#read chunks
+read_chunk("R/load_dataset.R")
+read_chunk("R/visualization.R")
+read_chunk("R/timeseries.R")
+
+```
+
+## Brief Financial Data
+
+**a- Access the dataset**
+
+```{r load_eu}
+```
+
+
+Dataset used is available in R datasets - EuStockMarkets
+EuStockMarkets : Contains the daily closing prices of major European stock indices: Germany DAX (Ibis), Switzerland SMI, France CAC, and UK FTSE. The data are sampled in business time, i.e., weekends and holidays are omitted.
+
+The data used is as is available from the dataset It is not normalized.
+
+**b- Plot the data**
+
+```{r plot_eu}
+```
+
+Above plot is a plot of timeseries data for annual European Stock Data from 1990 onward. In 1997, an event happened , this is indicated by a vertical red line which divides pre-1997 and post-1997. Plot gives a visual of how the rate of increase in DAX has rapidly grown post 1997. 
+
+**c- Decompose time-series data into its components**
+
+```{r plot_eu_decomp}
+```
+
+Above plot has timeseries decomposed into 'observed' , 'trend' , 'seasonal' and 'random' components. 1997 event line is shown in red.
+
+
+## Temperature Data
+
+**a- About the dataset**
+
+Dataset used : maxtemp dataset granted by loading fpp2
+About the dataset : 
+```{r adhoc1}
+help(maxtemp)
+```
+
+Maximum annual temperatures (degrees Celsius) for Moorabbin Airport, Melbourne. 1971-2016. 
+
+**b- load dataset**
+
+Subset dataset to get data from 1990 onwards only. 
+```{r load_maxtemp}
+```
+
+**c- plot using SES**
+
+```{r ses_maxtemp, warning=FALSE}
+```
+in the above plot, blue line represents fitted line through ses. Predicted temperature for next 5 years is 42.277 C.
+
+**d- plot using holt**
+
+```{r holt_maxtemp, warning=FALSE}
+```
+
+In the above plot, blue line represents fitted line through holt. Predicted temperature for next 5 years ranges from 43.14 C to 43.94 C
+
+**e- Compare ses() and holt() models**
+
+*SES model stats*
+```{r ses_stats}
+```
+
+*holt model stats*
+```{r holt_stats}
+```
+
+We consider model with lower AICC value as a better model. From the two models above, ses() model has AICC value of 141.53 while holt() model has AICC value of 156.37
+
+
+## The Wands Choose the Wizard
+
+**a- load wands data**
+
+```{r load_wands}
+```
+
+
+**b- convert date-like field to Date class**
+
+```{r tidy_wands_date}
+```
+
+
+**c- Convert dataframes to xts object**
+
+```{r tody_wands_xts}
+```
+
+**d- Plot dygraph**
+
+```{r plot_dygraphs}
+```
+
+From above plot, red line represents from Ollivander and green line from Gregorovitch. Shaded region from 1995 to 1999 is the approximate time when Voldemort was revived. 
